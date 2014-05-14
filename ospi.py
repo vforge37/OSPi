@@ -405,11 +405,11 @@ gv.rovals = [0]* gv.sd['nbrd']*7 #Run Once durations
 
 gv.pd = load_programs() # Load program data from file
 
-gv.ps = [] #Program schedule (used for UI diaplay)
+gv.ps = [] #Program schedule (used for UI display)
 for i in range(gv.sd['nst']):
     gv.ps.append([0,0])
 
-gv.pon = None #Program on (Holds program number of a running program
+gv.pon = None #Program on (Holds program number of a running program)
 
 gv.sbits = [0] * (gv.sd['nbrd'] +1) # Used to display stations that are on in UI 
 
@@ -419,7 +419,7 @@ for i in range(gv.sd['nst']):
     
 gv.lrun=[0,0,0,0] #station index, program number, duration, end time (Used in UI)
 
-gv.scount = 0 # Station count, used in set station to track on stations with master association.
+#gv.scount = 0 # Station count, used in set station to track on stations with master association.
 
 gv.snames = data('snames')    
 
