@@ -14,6 +14,7 @@ var simt=Date.UTC(yy,mm-1,dd,0,0,0,0);
 var simdate=new Date(simt);
 var simday = (simt/1000/3600/24)>>0;
 function w(s) {document.writeln(s);}
+
 function check_match(prog,simminutes,simdate,simday) {
   // simdate is Java date object, simday is the #days since 1970 01-01
   var wd,dn,drem;
@@ -39,8 +40,10 @@ function check_match(prog,simminutes,simdate,simday) {
   }
   return 0;  // no match found
 }
+
 function getx(sid)  {return xstart+sid*stwidth-stwidth/2;}  // x coordinate given a station
 function gety(t)    {return ystart+t*stheight/60;}  // y coordinate given a time
+
 function getrunstr(start,end){ // run time string
   var h,m,s,str;
   h=start/3600>>0;m=(start/60>>0)%60;s=start%60;
@@ -49,6 +52,7 @@ function getrunstr(start,end){ // run time string
   str+="->"+(h/10>>0)+(h%10)+":"+(m/10>>0)+(m%10)+":"+(s/10>>0)+(s%10);
   return str;
 } 
+
 function plot_bar(sid,start,pid,end) { // plot program bar
   w("<div title=\""+snames[sid]+" ["+getrunstr(start,end)+"]\" align=\"center\" style=\"position:absolute;background-color:"+prog_color[(pid+3)%4]+";left:"+getx(sid)+"px;top:"+gety(start/60)+"px;border:0;width:"+stwidth+"px;height:"+((end-start)/60*stheight/60)+"px\">P"+pid+"</div>");
 }
@@ -61,6 +65,7 @@ function plot_master(start,end) {  // plot master station
 function plot_currtime() {
   w("<div style=\"position:absolute;left:"+(xstart-stwidth/2-10)+"px;top:"+gety(devmin)+"px;border:1px solid rgba(200,0,0,0.5);width:"+(winwidth-xstart+stwidth/2)+"px;height:0px;\"></div>");
 }
+
 function run_sched(simseconds,st_array,pid_array,et_array) { // run and plot schedule stored in array data
   var sid,endtime=simseconds;
   for(sid=0;sid<sd['nbrd']*8;sid++) {
@@ -81,6 +86,7 @@ function run_sched(simseconds,st_array,pid_array,et_array) { // run and plot sch
   if(sd['seq']==0&&sd['mas']>0) plot_master(simseconds,endtime);
   return endtime;
 }
+
 function draw_title() {
   w("<div align=\"center\" style=\"background-color:#EEEEEE;position:absolute;left:0px;top:10px;border:2px solid gray;padding:5px 0px;width:"+(winwidth)+"px;border-radius:10px;box-shadow:3px 3px 2px #888888;\"><b>Program Preview of</b>&nbsp;");
   w(days_str[simdate.getUTCDay()]+" "+(simdate.getUTCMonth()+1)+"/"+(simdate.getUTCDate())+" "+(simdate.getUTCFullYear()));
@@ -103,11 +109,12 @@ function draw_grid() {
   }
   plot_currtime();
 }
+
 function draw_program() {
   // plot program data by a full simulation
   var simminutes=0,busy=0,match_found=0,bid,s,sid,pid,match=[0,0];
-  var st_array=new Array(sd['nbrd']*8),pid_array=new Array(sd['nbrd']*8);
-  var et_array=new Array(sd['nbrd']*8);
+  var st_array=new Array(sd['nbrd']*8),pid_array=new Array(sd['nbrd']*8); //st - start time
+  var et_array=new Array(sd['nbrd']*8); // et - end time
   for(sid=0;sid<sd['nbrd']*8;sid++)  {
     st_array[sid]=0;pid_array[sid]=0;et_array[sid]=0;
   }
