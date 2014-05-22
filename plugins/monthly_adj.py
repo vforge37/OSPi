@@ -13,7 +13,7 @@ try:
     sched = Scheduler()
     sched.start() # Start the scheduler
 except NameError:
-    pass    
+    pass
 
 def set_wl():
     """Adjust irrigation time by percent based on historical climate data.""" 
@@ -53,4 +53,4 @@ set_wl() # Runs the function once at load.
 try:
     sched.add_cron_job(set_wl, day=1) # Run the plugin's function the first day of each month.
 except NameError:
-    pass    
+    pass

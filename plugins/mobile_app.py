@@ -18,15 +18,15 @@ class options: # /jo
         web.header('Content-Type', 'application/json')
         jopts = {"fwv":'1.8.3-OSPi',"tz":gv.sd['tz'], "ext":gv.sd['nbrd']-1,"seq":gv.sd['seq'],"sdt":gv.sd['sdt'],"mas":gv.sd['mas'],"mton":gv.sd['mton'],"mtof":gv.sd['mtoff'],"urs":gv.sd['urs'],"rso":gv.sd['rst'],"wl":gv.sd['wl'],"ipas":gv.sd['ipas'],"reset":gv.sd['rbt']}
         return json.dumps(jopts)
-    
+
 class cur_settings: # /jc
     """Returns current settings as json."""
     def GET(self):
         web.header('Access-Control-Allow-Origin', '*')
         web.header('Content-Type', 'application/json')
         jsettings = {"devt":gv.now,"nbrd":gv.sd['nbrd'],"en":gv.sd['en'],"rd":gv.sd['rd'],"rs":gv.sd['rs'],"mm":gv.sd['mm'],"rdst":gv.sd['rdst'],"loc":gv.sd['loc'],"sbits":gv.sbits,"ps":gv.ps,"lrun":gv.lrun}
-        return json.dumps(jsettings)    
-    
+        return json.dumps(jsettings)
+
 class station_state: # /js
     """Returns station status and total number of stations as json."""
     def GET(self):
@@ -34,7 +34,6 @@ class station_state: # /js
         web.header('Content-Type', 'application/json')
         jstate = {"sn":gv.srvals, "nstations":gv.sd['nst']}
         return json.dumps(jstate)
-    
 
 class program_info: # /jp
     """Returns program data as json."""
@@ -49,12 +48,12 @@ class program_info: # /jp
             lpd.append(op)
         progstr = ''
         for i, pro in enumerate(lpd): #gets both index and object
-            progstr += 'pd['+str(i)+']='+str(pro).replace(' ', '')+';'       
+            progstr += 'pd['+str(i)+']='+str(pro).replace(' ', '')+';'
         web.header('Access-Control-Allow-Origin', '*')
         web.header('Content-Type', 'application/json')
-        jpinfo = {"nprogs":gv.sd['nprogs']-1,"nboards":gv.sd['nbrd'],"mnp":gv.sd['mnp'], 'pd': progstr} 
+        jpinfo = {"nprogs":gv.sd['nprogs']-1,"nboards":gv.sd['nbrd'],"mnp":gv.sd['mnp'], 'pd': progstr}
         return json.dumps(jpinfo)
-        
+
 class station_info: # /jn
     """Returns station information as json."""
     def GET(self):
