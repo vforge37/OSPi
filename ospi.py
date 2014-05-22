@@ -29,10 +29,9 @@ gv.rev_date = '04/May/2014'
 # except ImportError:
 #     print 'add_on not imported'
 
-  
 ##############################
 #### Function Definitions ####
-  
+
 def approve_pwd(qdict):
     """Password checking"""
     try:
@@ -70,7 +69,7 @@ def clear_mm():
             gv.ps.append([0,0])
         gv.rs = []
         for i in range(gv.sd['nst']):
-            gv.rs.append([0,0,0,0])    
+            gv.rs.append([0,0,0,0])
         gv.srvals = [0]*(gv.sd['nst'])
         set_output()
     return
@@ -99,13 +98,13 @@ def log_run():
         log = f.readlines()
         f.close()
         log.insert(1, datastr)
-        f = open('./static/log/water_log.csv', 'w') 
+        f = open('./static/log/water_log.csv', 'w')
         if gv.sd['lr']:
             f.writelines(log[:gv.sd['lr']+1])
         else:
             f.writelines(log)
-        f.close  
-    return  
+        f.close
+    return
 
 def prog_match(prog):
     """Test a program for current date and time match."""
@@ -120,7 +119,7 @@ def prog_match(prog):
             if lt[2]%2 != 0: return 0
         if prog[1]>=128 and prog[2] == 1: #Odd days
             if lt[2]==31 or (lt[1]==2 and lt[2]==29): return 0
-            elif lt[2]%2 !=1: return 0   
+            elif lt[2]%2 !=1: return 0
     this_minute = (lt[3]*60)+lt[4] # Check time match
     if this_minute < prog[3] or this_minute >= prog[4]: return 0
     if prog[5] == 0: return 0
@@ -175,7 +174,7 @@ def stop_onrain():
             elif not all(v == 0 for v in gv.rs[sid]):
                 gv.srvals[sid] = 0
                 set_output()
-                gv.sbits[b] = gv.sbits[b]&~2**s # Clears stopped stations from display     
+                gv.sbits[b] = gv.sbits[b]&~2**s # Clears stopped stations from display
                 gv.ps[sid] = [0,0]
                 gv.rs[sid] = [0,0,0,0]
     return
@@ -183,10 +182,10 @@ def stop_onrain():
 def stop_stations():
         """Stop all running stations, clear schedules."""
         gv.srvals = [0]*(gv.sd['nst'])
-        set_output()            
+        set_output()
         gv.ps = []
         for i in range(gv.sd['nst']):
-            gv.ps.append([0,0])   
+            gv.ps.append([0,0])
         gv.sbits = [0] * (gv.sd['nbrd'] +1)
         gv.rs = []
         for i in range(gv.sd['nst']):
@@ -218,17 +217,16 @@ def timing_loop():
                                         gv.rs[sid][2] = duration # p[6]*gv.sd['wl']/100 # store duration scaled by water level
                                         gv.rs[sid][3] = i+1 # store program number for scheduling                                 
                                         gv.ps[sid][0] = i+1 # store program number for display
-                                        gv.ps[sid][1] = duration                                 
+                                        gv.ps[sid][1] = duration
                                     else: # concurrent mode
                                         if duration < gv.rs[sid][2]: # If duration is shortter than any already set for this station
                                             continue
-                                        else:    
+                                        else:
                                             gv.rs[sid][2] = duration
                                             gv.rs[sid][3] = i+1 # store program number
                                             gv.ps[sid][0] = i+1 # store program number for display
-                                            gv.ps[sid][1] = duration          
-                        schedule_stations(p[7:7+gv.sd['nbrd']]) # turns on gv.sd['bsy']                    
-
+                                            gv.ps[sid][1] = duration
+                        schedule_stations(p[7:7+gv.sd['nbrd']]) # turns on gv.sd['bsy']
 
         if gv.sd['bsy']:
             for b in range(gv.sd['nbrd']): # Check each station once a second
@@ -263,20 +261,20 @@ def timing_loop():
                                     gv.rs[masid][3] = gv.rs[sid][3]
                             elif gv.sd['mas'] == sid+1:
                                 gv.sbits[b] = gv.sbits[b]|1<<sid #(gv.sd['mas'] - 1)
-                                gv.srvals[masid] = 1                              
-                                set_output()                   
-            
+                                gv.srvals[masid] = 1
+                                set_output()
+
             for s in range(gv.sd['nst']):
                 if gv.rs[s][1]: # if any station is scheduled
                     program_running = True
                     gv.pon = gv.rs[s][3] # Store number of running program
-                    break              
+                    break
                 program_running = False
                 gv.pon = None
 
-            if program_running:           
+            if program_running:
                 if gv.sd['urs'] and gv.sd['rs']: # Stop stations if use rain sensor and rain detected.
-                    stop_onrain() #Clear schedule for stations that do not ignore rain.               
+                    stop_onrain() #Clear schedule for stations that do not ignore rain.
                 for idx in range(len(gv.rs)): # loop through program schedule (gv.ps)
                     if gv.rs[idx][2] == 0: # skip stations with no duration
                         continue
@@ -309,7 +307,7 @@ def timing_loop():
         if gv.sd['urs']:
             check_rain()
             
-        if gv.sd['rd'] and gv.now>= gv.sd['rdst']: # Check of rain delay time is up          
+        if gv.sd['rd'] and gv.now>= gv.sd['rdst']: # Check of rain delay time is up
             gv.sd['rd'] = 0
             gv.sd['rdst'] = 0 # Rain delay stop time
             jsave(gv.sd, 'sd')
@@ -372,12 +370,11 @@ def output_prog():
     progstr = 'var nprogs='+str(len(lpd))+',nboards='+str(gv.sd['nbrd'])+',ipas='+str(gv.sd['ipas'])+',mnp='+str(gv.sd['mnp'])+',pd=[];'
     for i, pro in enumerate(lpd): #gets both index and object
         progstr += 'pd['+str(i)+']='+str(pro).replace(' ', '')+';'
-    return progstr      
-    
+    return progstr
 
 #####################
 #### Global vars ####
-  
+
 #Settings Dictionary. A set of vars kept in memory and persisted in a file.
 #Edit this default dictionary definition to add or remove "key": "value" pairs or change defaults.
 gv.sd = ({u"en": 1, u"seq": 1, u"mnp": 32, u"ir": [0], u"rsn": 0, u"htp": 8080, u"nst": 8,
@@ -417,12 +414,12 @@ gv.sbits = [0] * (gv.sd['nbrd'] +1) # Used to display stations that are on in UI
 gv.rs = [] #run schedule
 for i in range(gv.sd['nst']):
     gv.rs.append([0,0,0,0]) #scheduled start time, scheduled stop time, duration, program index
-    
+
 gv.lrun=[0,0,0,0] #station index, program number, duration, end time (Used in UI)
 
 #gv.scount = 0 # Station count, used in set station to track on stations with master association.
 
-gv.snames = data('snames')    
+gv.snames = data('snames')
 
 def pass_options(opts):
     optstring = "var sd = {\n"
@@ -435,7 +432,6 @@ def pass_options(opts):
         optstring += ",\n" 
     optstring = optstring[:-2] + "\n}\n"
     return optstring
-    
 
 ###########################
 #### Class Definitions ####
@@ -452,13 +448,13 @@ class home:
         homepg += '<script>var snames='+data('snames')+';</script>\n'
         homepg += '<script>var tempunit="'+str(gv.sd['tu'])+'";</script>\n'
         if gv.sd['tu'] == "F":
-            try:  
+            try:
               homepg += '<script>var cputemp='+str(9.0/5.0*int(float(CPU_temperature()))+32)+'; var tempunit="F";</script>\n'
             except ValueError:
                pass
         else:
             try:
-                homepg += '<script>var cputemp='+str(float(CPU_temperature()))+'; var tempunit="C";</script>\n'            
+                homepg += '<script>var cputemp='+str(float(CPU_temperature()))+'; var tempunit="C";</script>\n'
             except ValueError:
                 pass
         homepg += '<script src=\"'+baseurl()+'/static/scripts/java/svc1.8.3/home.js\"></script>'
@@ -482,7 +478,7 @@ class change_values:
         if qdict.has_key('rd') and qdict['rd'] != '0' and qdict['rd'] != '':
             gv.sd['rdst'] = (gv.now+(int(qdict['rd'])*3600))
             stop_onrain()
-        elif qdict.has_key('rd') and qdict['rd'] == '0': gv.sd['rdst'] = 0   
+        elif qdict.has_key('rd') and qdict['rd'] == '0': gv.sd['rdst'] = 0
         if qdict.has_key('rbt') and qdict['rbt'] == '1':
             jsave(gv.sd, 'sd')
             gv.srvals = [0]*(gv.sd['nst'])
@@ -524,7 +520,7 @@ class change_options:
                 gv.sd['pwd'] = base64.b64encode(qdict['npw'])
         except KeyError:
             pass
-        
+
         if qdict.has_key('oname'):
             gv.sd['name'] = qdict['oname']
         if qdict.has_key('oloc'):
@@ -534,7 +530,7 @@ class change_options:
 
         if int(qdict['onbrd'])+1 != gv.sd['nbrd']: self.update_scount(qdict)
         gv.sd['nbrd'] = int(qdict['onbrd'])+1
-        
+
         gv.sd['nst'] = gv.sd['nbrd']*8
         if qdict.has_key('ohtp'):
             gv.sd['htp']= int(qdict['ohtp'])
@@ -554,12 +550,12 @@ class change_options:
           gv.sd['urs'] = 1
         else:
           gv.sd['urs'] = 0
-        
+
         if qdict.has_key('oseq') and (qdict['oseq'] == 'on' or qdict['oseq'] == '1'):
           gv.sd['seq'] = 1
         else:
           gv.sd['seq'] = 0
-        
+
         if qdict.has_key('orst') and (qdict['orst'] == 'on' or qdict['orst'] == '1'):
           gv.sd['rst'] = 1
         else:
@@ -569,7 +565,7 @@ class change_options:
           gv.sd['lg'] = 1
         else:
           gv.sd['lg'] = 0 
-        
+
         if qdict.has_key('olr'):
             gv.sd['lr'] = int(qdict['olr'])
 
@@ -693,7 +689,7 @@ class set_station:
         if nstlst[1] == 0 and gv.sd['mm']: # If status is off
             gv.rs[sid][1] = gv.now
             time.sleep(1.5)
-        raise web.seeother('/')        
+        raise web.seeother('/')
 
 class view_runonce:
     """Open a page to view and edit a run once program."""
@@ -736,7 +732,7 @@ class view_programs:
     def GET(self):
         programpg = '<!DOCTYPE html>\n'
         programpg += data('meta')
-        programpg += '<script >var baseurl=\"'+baseurl()+'\"</script>\n'       
+        programpg += '<script >var baseurl=\"'+baseurl()+'\"</script>\n'
         programpg += '<script >'+ pass_options(["nbrd","ipas","mnp"]) + output_prog()+'</script>\n'
         programpg += '<script >snames='+data('snames')+';</script>\n'
         programpg += '<script src=\"'+baseurl()+'/static/scripts/java/svc1.8.3/viewprog.js\"></script>'
@@ -808,7 +804,7 @@ class delete_program:
         gv.sd['nprogs'] = len(gv.pd)
         raise web.seeother('/vp')
         return
-                          
+
 class graph_programs:
     """Open page to display program schedule as a graph."""
     def GET(self):
