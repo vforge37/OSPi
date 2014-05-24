@@ -626,7 +626,7 @@ class view_stations:
         return stationpg
 
 class change_stations:
-    """Save changes to station names, ignore rainsettings, and master associations."""
+    """Save changes to station names, ignore rain settings, and master associations."""
     def GET(self):
         qdict = web.input()
         approve_pwd(qdict)
