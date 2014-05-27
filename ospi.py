@@ -748,6 +748,7 @@ class modify_program:
         if qdict['pid'] != '-1':
             mp = gv.pd[int(qdict['pid'])][:]
             if mp[1] >= 128 and mp[2] > 1: # If this is an interval program
+                #dse = int(gv.now/86400)
                 dse = int(gv.now/86400)
                 rel_rem = (((mp[1]-128) + mp[2])-(dse%mp[2]))%mp[2] # Convert absolute to relative days remaining for display
                 mp[1] = rel_rem + 128
