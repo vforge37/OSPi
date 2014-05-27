@@ -1,0 +1,7 @@
+{"program":"3","station":0,"duration":"15:00","start":"18:00:00","date":"2014-05-15"}
+{"program":"3","station":0,"duration":"15:00","start":"14:00:00","date":"2014-05-15"}
+{"program":"Manual","station":0,"duration":"00:10","start":"20:12:14","date":"2014-05-14"}
+{"program":"Run-once","station":4,"duration":"00:10","start":"20:09:57","date":"2014-05-14"}
+{"program":"Run-once","station":2,"duration":"00:10","start":"20:09:47","date":"2014-05-14"}
+{"program":"Run-once","station":0,"duration":"00:10","start":"20:09:37","date":"2014-05-14"}
+{"program":"Manual","station":1,"duration":"00:10","start":"18:06:44","date":"2014-05-14"}
