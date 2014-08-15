@@ -61,7 +61,7 @@ w("<button style=\"height:44\" onclick=\"fcancel()\">"+imgstr("back")+"Back</but
 w("<button style=\"height:44\" onclick=\"mod(mf,-1)\">"+imgstr("addall")+"<b>Add a New Program</b></button>");
 w("<button style=\"height:44\" onclick=\"del(df,-1)\">"+imgstr("delall")+"Delete All</button>");
 w("<button style=\"height:44\" onclick=\"fplot()\">"+imgstr("preview")+"Preview</button><hr>");
-w("<b>Total number of programs: "+nprogs+" (maximum is "+sd['mnp']+")</b><br>");
+w("<b>Total number of programs: "+nprogs+"</b><br>");
 // print programs
 var pid,st,et,iv,du,sd;
 for(pid=0;pid<nprogs;pid++) {
